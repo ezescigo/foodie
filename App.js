@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components/native';
+import * as firebase from 'firebase';
+
 
 import { useFonts as useOswald, Oswald_400Regular } from '@expo-google-fonts/oswald';
 import { useFonts as useLato, Lato_400Regular } from '@expo-google-fonts/lato';
@@ -10,15 +12,28 @@ import { Navigation } from './src/infrastructure/navigation/index';
 import { RestaurantsContextProvider } from './src/services/restaurants/restaurants.context';
 import { LocationContextProvider } from './src/services/location/location.context';
 import { FavoritesContextProvider } from './src/services/favorites/favorites.context';
+import { AuthenticationContextProvider } from './src/services/authentication/authentication.context';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyARz4_Vbt3YvI-qB1VNgyT4F11vGBdhrqE",
+  authDomain: "foodie-4da8b.firebaseapp.com",
+  projectId: "foodie-4da8b",
+  storageBucket: "foodie-4da8b.appspot.com",
+  messagingSenderId: "290801636854",
+  appId: "1:290801636854:web:763889095853ca7f1563d7"
+};
 
-export default function App() {
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-  const [oswaldLoaded] = useOswald({
+export default function App () {
+
+  const [ oswaldLoaded ] = useOswald({
     Oswald_400Regular,
   });
 
-  const [latoLoaded] = useLato({
+  const [ latoLoaded ] = useLato({
     Lato_400Regular,
   });
 
@@ -29,13 +44,15 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={ theme }>
-        <FavoritesContextProvider>
-          <LocationContextProvider>
-            <RestaurantsContextProvider>
-              <Navigation />
-            </RestaurantsContextProvider>
-          </LocationContextProvider>
-        </FavoritesContextProvider>
+        <AuthenticationContextProvider>
+          <FavoritesContextProvider>
+            <LocationContextProvider>
+              <RestaurantsContextProvider>
+                <Navigation />
+              </RestaurantsContextProvider>
+            </LocationContextProvider>
+          </FavoritesContextProvider>
+        </AuthenticationContextProvider>
       </ThemeProvider>
       <ExpoStatusBar style='auto' />
     </>
