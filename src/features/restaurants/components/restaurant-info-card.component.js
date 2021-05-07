@@ -2,6 +2,7 @@ import React from 'react';
 import { SvgXml } from 'react-native-svg';
 import { Spacer } from '../../../components/spacer/spacer.component';
 import { Text } from '../../../components/typography/text.component';
+import { Favorite } from '../../../components/favorites/favorite.component';
 
 import star from '../../../../assets/star';
 import openIcon from '../../../../assets/open';
@@ -35,36 +36,37 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
   const ratingArray = Array.from(new Array(Math.floor(rating)));
 
   return (
-    <RestaurantCard elevation={5}>
-      <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+    <RestaurantCard elevation={ 5 }>
+      <Favorite restaurant={ restaurant } />
+      <RestaurantCardCover key={ name } source={ { uri: photos[0] } } />
       <Info>
-        <Text variant="body">{name}</Text>
+        <Text variant="body">{ name }</Text>
         <Section>
           <Rating>
-            {ratingArray.map((_, i) => (
+            { ratingArray.map((_, i) => (
               <SvgXml
-                key={`star-${placeId}-${i}`}
-                xml={star}
-                width={20}
-                height={20}
+                key={ `star-${placeId}-${i}` }
+                xml={ star }
+                width={ 20 }
+                height={ 20 }
               />
-            ))}
+            )) }
           </Rating>
           <StatusIcon>
-            {isClosedTemporarily && (
+            { isClosedTemporarily && (
               <Text variant="error">
                 CLOSED TEMPORARILY
               </Text>
-            )}
+            ) }
             <Spacer position='left' size='medium'>
-              {isOpenNow && <SvgXml xml={openIcon} width={20} height={20} />}
+              { isOpenNow && <SvgXml xml={ openIcon } width={ 20 } height={ 20 } /> }
             </Spacer>
             <Spacer position='left' size='medium'>
-              <Icon source={{ uri: icon }} />
+              <Icon source={ { uri: icon } } />
             </Spacer>
           </StatusIcon>
         </Section>
-        <Address>{address}</Address>
+        <Address>{ address }</Address>
       </Info>
     </RestaurantCard>
   )

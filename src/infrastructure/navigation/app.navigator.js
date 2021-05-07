@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import { RestaurantsNavigator } from './restaurants.navigator';
+import { MapScreen } from '../../features/map/screens/map.screen';
 
 const Tab = createBottomTabNavigator();
 const TAB_ICON = {
@@ -28,14 +29,6 @@ const SettingsScreen = () => {
   return (
     <SafeArea style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Settings</Text>
-    </SafeArea>
-  )
-};
-
-const MapScreen = () => {
-  return (
-    <SafeArea style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'green' }}>
-      <Text>Map</Text>
     </SafeArea>
   )
 };
