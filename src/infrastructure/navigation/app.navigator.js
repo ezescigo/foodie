@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useContext } from 'react';
+import { Text, Button } from 'react-native';
 import { SafeArea } from '../../components/utilities/safe-area.component';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { RestaurantsNavigator } from './restaurants.navigator';
 import { MapScreen } from '../../features/map/screens/map.screen';
+
+import { AuthenticationContext } from '../../services/authentication/authentication.context';
 
 const Tab = createBottomTabNavigator();
 const TAB_ICON = {
@@ -25,9 +27,12 @@ const createScreenOptions = ({ route }) => {
 }
 
 const SettingsScreen = () => {
+  const { onLogout } = useContext(AuthenticationContext);
+
   return (
     <SafeArea style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
       <Text>Settings</Text>
+      <Button title='logout' onPress={ () => onLogout() }></Button>
     </SafeArea>
   )
 };

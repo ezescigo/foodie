@@ -1,12 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
+import { Text } from '../../../components/typography/text.component';
 import { Spacer } from '../../../components/spacer/spacer.component';
-import { AccountBackground, AccountCover, AccountContainer, AuthButton, AuthInput } from '../components/account.styles';
+import {
+  AccountBackground,
+  AccountCover,
+  AccountContainer,
+  AuthButton,
+  BackButton,
+  AuthInput,
+  ErrorContainer,
+} from '../components/account.styles';
 
 import { AuthenticationContext } from '../../../services/authentication/authentication.context';
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
 
   const [ email, setEmail ] = useState('');
   const [ passwd, setPasswd ] = useState('');
@@ -30,24 +39,39 @@ export const LoginScreen = () => {
             textContentType="password"
             autoCapitalize="none"
             secureTextEntry
-            secure
             value={ passwd }
             onChangeText={ p => setPasswd(p) }
           />
         </Spacer>
         <Spacer size='large'>
-          <AuthButton
-            icon='lock-open-outline'
-            title='login'
-            mode='contained'
-            onPress={ () => onLogin(email, passwd) }
-          >
-            Login
-        </AuthButton>
+          { !isLoading ? (
+            <AuthButton
+              icon='lock-open-outline'
+              title='login'
+              mode='contained'
+              onPress={ () => onLogin(email, passwd) }
+            >
+              Login
+            </AuthButton>
+          ) : (
+            <ActivityIndicator animating={ true } color={ Colors.blue300 } />
+          ) }
         </Spacer>
-        { isLoading && <Text>please wait...</Text> }
-        { error && (<Text>{ error }</Text>) }
+        { error &&
+          <ErrorContainer>
+            <Text variant='error'>{ error }</Text>
+          </ErrorContainer>
+        }
       </AccountContainer>
+      <Spacer size='large'>
+        <BackButton
+          title='back'
+          mode='contained'
+          onPress={ () => navigation.goBack() }
+        >
+          Back
+          </BackButton>
+      </Spacer>
     </AccountBackground>
   )
 };
