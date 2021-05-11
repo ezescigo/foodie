@@ -20,14 +20,11 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogin = (email, password) => {
     setIsLoading(true);
-    console.log('starting', email, password);
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        console.log(userCredential);
         setUser(userCredential);
         setIsLoading(false);
       }).catch((err) => {
-        console.log(err);
         setIsLoading(false);
         setError(err.toString());
       });
@@ -41,11 +38,9 @@ export const AuthenticationContextProvider = ({ children }) => {
     setIsLoading(true);
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        console.log(userCredential);
         setUser(userCredential);
         setIsLoading(false);
       }).catch((err) => {
-        console.log(err);
         setIsLoading(false);
         setError(err.toString());
       });

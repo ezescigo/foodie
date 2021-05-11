@@ -1,9 +1,11 @@
 import React from 'react';
+import LottieView from 'lottie-react-native';
 
 import { Spacer } from '../../../components/spacer/spacer.component';
 import {
   AccountBackground,
   AccountCover,
+  AnimationWrapper,
   AccountContainer,
   AuthButton,
   Title,
@@ -34,6 +36,15 @@ export const AccountScreen = ({ navigation }) => {
           </AuthButton>
         </Spacer>
       </AccountContainer>
+      <AnimationWrapper>
+        <LottieView
+          key='animation'
+          autoPlay
+          loop
+          resizeMode='cover'
+          source={ require('../../../../assets/home_cat.json') }
+        />
+      </AnimationWrapper>
     </AccountBackground>
   )
 };
