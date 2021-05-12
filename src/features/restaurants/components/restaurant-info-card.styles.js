@@ -3,23 +3,25 @@ import { Card } from 'react-native-paper';
 
 export const RestaurantCard = styled(Card)`
   background-color: ${(props) => props.theme.colors.bg.primary};
-  margin-top: ${(props) => props.theme.space[3]};
+  margin-top: ${(props) => props.theme.space[ 0 ]};
+  width: 95%;
+  align-self: center;
 `;
 
 export const RestaurantCardCover = styled(Card.Cover)`
-  padding: ${(props) => props.theme.space[0]};
+  padding: ${(props) => props.theme.space[ 0 ]};
   background-color: ${(props) => props.theme.colors.bg.primary};
 `;
 
 export const Info = styled.View`
-  padding: ${(props) => props.theme.space[3]};
+  padding: ${(props) => props.theme.space[ 3 ]};
 `;
 
 export const Section = styled.View`
   flex-direction: row;
   align-items: center;
-  padding-top: ${(props) => props.theme.space[2]};
-  padding-bottom: ${(props) => props.theme.space[2]};
+  padding-top: ${(props) => props.theme.space[ 2 ]};
+  padding-bottom: ${(props) => props.theme.space[ 2 ]};
 `;
 
 export const Rating = styled.View`
