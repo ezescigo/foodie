@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "ts:check": "tsc"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -16,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
+    "@types/react": "^18.2.37",
     "@types/styled-components-react-native": "^5.2.5",
     "camelize": "^1.0.1",
     "css-tree": "^2.3.1",
@@ -23,6 +25,7 @@
     "expo-camera": "~13.4.4",
     "expo-font": "~11.4.0",
     "expo-status-bar": "~1.6.0",
+    "firebase": "9.23.0",
     "lottie-react-native": "5.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -35,7 +38,7 @@
     "react-native-webview": "13.2.2",
     "stripe-client": "^1.1.5",
     "styled-components": "^6.1.1",
-    "firebase": "9.23.0"
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",

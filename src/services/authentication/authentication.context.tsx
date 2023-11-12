@@ -8,12 +8,27 @@ import {
   createUserWithEmailAndPassword,
   initializeAuth,
 } from "firebase/auth";
-import {
-  ReactNativeAsyncStorage,
-  getReactNativePersistance,
-} from "@react-native-async-storage/async-storage";
+// import {
+//   ReactNativeAsyncStorage,
+//   getReactNativePersistance,
+// } from "@react-native-async-storage/async-storage";
 
-export const AuthenticationContext = createContext();
+type AuthenticationContextProps = {
+  isAuthenticated: boolean;
+  user: any;
+  isLoading: boolean;
+  error: any;
+  onLogin: (email: string, password: string) => void;
+  onRegister: (
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ) => void;
+  onLogout: () => void;
+};
+
+export const AuthenticationContext =
+  createContext<AuthenticationContextProps | null>(null);
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +49,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   });
 
-  const onLogin = (email, password) => {
+  const onLogin = (email: string, password: string) => {
     setIsLoading(true);
 
     signInWithEmailAndPassword(auth, email, password)
@@ -48,7 +63,11 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
   };
 
-  const onRegister = (email, password, repeatedPassword) => {
+  const onRegister = (
+    email: string,
+    password: string,
+    repeatedPassword: string
+  ) => {
     if (password !== repeatedPassword) {
       setError("Error: Passwords do not match.");
       return;
@@ -68,7 +87,7 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogout = () => {
     setUser(null);
-    auth().signOut();
+    auth.signOut();
   };
 
   return (
