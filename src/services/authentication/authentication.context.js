@@ -1,14 +1,29 @@
 import React, { useState, createContext } from "react";
 import { loginRequest } from "./authentication.service";
-import { firebaseApp } from "../../../App";
+import { firebaseApp } from "../../firebase/config";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  initializeAuth,
+} from "firebase/auth";
+import {
+  ReactNativeAsyncStorage,
+  getReactNativePersistance,
+} from "@react-native-async-storage/async-storage";
 
-const auth = firebaseApp.auth();
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
+  const auth = initializeAuth(firebaseApp);
+  // const auth = initializeAuth(firebaseApp, {
+  //   persistence: getReactNativePersistance(ReactNativeAsyncStorage),
+  // });
 
   auth.onAuthStateChanged((usr) => {
     if (usr) {
@@ -22,8 +37,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const onLogin = (email, password) => {
     setIsLoading(true);
 
-    auth
-      .signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
@@ -41,8 +55,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
     setIsLoading(true);
 
-    auth
-      .createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
