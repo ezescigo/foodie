@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react';
-import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
-import { Searchbar, ActivityIndicator, Colors } from 'react-native-paper';
+import React, { useContext, useState } from "react";
+import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
+import { Searchbar, ActivityIndicator, Colors } from "react-native-paper";
 
-import { FavoritesBar } from '../../../components/favorites/favorites-bar.component.js';
-import { Spacer } from '../../../components/spacer/spacer.component';
-import { SafeArea } from '../../../components/utilities/safe-area.component';
-import { FadeInView } from '../../../components/animations/fade.animation';
-import { Search } from '../components/search.component';
+import { FavoritesBar } from "../../../components/favorites/favorites-bar.component.js";
+import { Spacer } from "../../../components/spacer/spacer.component";
+import { SafeArea } from "../../../components/utilities/safe-area.component";
+import { FadeInView } from "../../../components/animations/fade.animation";
+import { Search } from "../components/search.component";
 
-import { RestaurantList } from '../components/restaurant-list.styles';
+import { RestaurantList } from "../components/restaurant-list.styles";
 
-import { RestaurantInfoCard } from '../components/restaurant-info-card.component.js';
-import { RestaurantsContext } from '../../../services/restaurants/restaurants.context';
-import { FavoritesContext } from '../../../services/favorites/favorites.context';
+import { RestaurantInfoCard } from "../components/restaurant-info-card.component.js";
+import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+import { FavoritesContext } from "../../../services/favorites/favorites.context";
 
 const LoaderContainer = styled.View`
   position: absolute;
@@ -27,37 +27,42 @@ const LoadingIcon = styled(ActivityIndicator)`
 
 export const RestaurantsScreen = ({ navigation }) => {
   const { isLoading, error, restaurants } = useContext(RestaurantsContext);
-  const [ isToggled, setIsToggled ] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
   const { favorites } = useContext(FavoritesContext);
 
   return (
     <SafeArea>
-      { isLoading && (
+      {isLoading && (
         <LoaderContainer>
-          <LoadingIcon animating={ true } size={ 50 } color={ Colors.red800 } />
+          <LoadingIcon animating={true} size={50} color={"#C62828"} />
         </LoaderContainer>
-      ) }
+      )}
       <Search
-        isFavoritesToggled={ isToggled }
-        onFavoritesToggle={ () => setIsToggled(!isToggled) }
+        isFavoritesToggled={isToggled}
+        onFavoritesToggle={() => setIsToggled(!isToggled)}
       />
-      {isToggled && <FavoritesBar favorites={ favorites } onNavigate={ navigation.navigate } /> }
+      {isToggled && (
+        <FavoritesBar favorites={favorites} onNavigate={navigation.navigate} />
+      )}
       <RestaurantList
-        data={ restaurants }
-        renderItem={ ({ item }) => {
+        data={restaurants}
+        renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress={ () => navigation.navigate('RestaurantDetails', { restaurant: item }) }>
+              onPress={() =>
+                navigation.navigate("RestaurantDetails", { restaurant: item })
+              }
+            >
               <Spacer position="bottom" size="large">
                 <FadeInView>
-                  <RestaurantInfoCard restaurant={ item } />
+                  <RestaurantInfoCard restaurant={item} />
                 </FadeInView>
               </Spacer>
             </TouchableOpacity>
-          )
-        } }
-        keyExtractor={ (item) => item.name }
+          );
+        }}
+        keyExtractor={(item) => item.name}
       />
     </SafeArea>
-  )
+  );
 };

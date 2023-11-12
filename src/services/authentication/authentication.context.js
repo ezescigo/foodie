@@ -37,7 +37,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const onLogin = (email, password) => {
     setIsLoading(true);
 
-    signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
@@ -55,7 +55,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
     setIsLoading(true);
 
-    createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
