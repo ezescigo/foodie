@@ -1,15 +1,16 @@
-import React, { useState, createContext } from 'react';
-import * as firebase from "firebase";
-import { loginRequest } from './authentication.service';
+import React, { useState, createContext } from "react";
+import { loginRequest } from "./authentication.service";
+import { firebaseApp } from "../../../App";
 
+const auth = firebaseApp.auth();
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ user, setUser ] = useState(null);
-  const [ error, setError ] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
-  firebase.auth().onAuthStateChanged((usr) => {
+  auth.onAuthStateChanged((usr) => {
     if (usr) {
       setUser(usr);
       setIsLoading(false);
@@ -20,11 +21,14 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogin = (email, password) => {
     setIsLoading(true);
-    firebase.auth().signInWithEmailAndPassword(email, password)
+
+    auth
+      .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setIsLoading(false);
         setError(err.toString());
       });
@@ -32,15 +36,18 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onRegister = (email, password, repeatedPassword) => {
     if (password !== repeatedPassword) {
-      setError("Error: Passwords do not match.")
+      setError("Error: Passwords do not match.");
       return;
-    };
+    }
     setIsLoading(true);
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+
+    auth
+      .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         setUser(userCredential);
         setIsLoading(false);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         setIsLoading(false);
         setError(err.toString());
       });
@@ -48,12 +55,12 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onLogout = () => {
     setUser(null);
-    firebase.auth().signOut();
-  }
+    auth().signOut();
+  };
 
   return (
     <AuthenticationContext.Provider
-      value={ {
+      value={{
         isAuthenticated: !!user,
         user,
         isLoading,
@@ -61,8 +68,9 @@ export const AuthenticationContextProvider = ({ children }) => {
         onLogin,
         onRegister,
         onLogout,
-      } }>
-      {children }
+      }}
+    >
+      {children}
     </AuthenticationContext.Provider>
-  )
+  );
 };

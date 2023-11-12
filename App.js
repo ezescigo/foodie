@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
-import { ThemeProvider } from 'styled-components/native';
-import * as firebase from 'firebase';
+import React, { useState, useEffect } from "react";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { ThemeProvider } from "styled-components/native";
+import firebase from "firebase/compat/app";
 
-import { useFonts as useOswald, Oswald_400Regular } from '@expo-google-fonts/oswald';
-import { useFonts as useLato, Lato_400Regular } from '@expo-google-fonts/lato';
+import {
+  useFonts as useOswald,
+  Oswald_400Regular,
+} from "@expo-google-fonts/oswald";
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
-import { theme } from './src/infrastructure/theme';
-import { Navigation } from './src/infrastructure/navigation/index';
+import { theme } from "./src/infrastructure/theme";
+import { Navigation } from "./src/infrastructure/navigation/index";
 
-import { AuthenticationContextProvider } from './src/services/authentication/authentication.context';
+import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 
 const firebaseConfig = {
   apiKey: "AIzaSyARz4_Vbt3YvI-qB1VNgyT4F11vGBdhrqE",
@@ -17,38 +20,39 @@ const firebaseConfig = {
   projectId: "foodie-4da8b",
   storageBucket: "foodie-4da8b.appspot.com",
   messagingSenderId: "290801636854",
-  appId: "1:290801636854:web:763889095853ca7f1563d7"
+  appId: "1:290801636854:web:763889095853ca7f1563d7",
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-  console.log('firebase connected')
-}
+console.log("hi");
+console.log(firebase);
+// if (!firebase.apps.length) {
+export const firebaseApp = initializeApp(firebaseConfig);
 
-export default function App () {
+console.log(firebaseApp);
 
-  const [ oswaldLoaded ] = useOswald({
+console.log("firebase connected");
+
+export default function App() {
+  const [oswaldLoaded] = useOswald({
     Oswald_400Regular,
   });
 
-  const [ latoLoaded ] = useLato({
+  const [latoLoaded] = useLato({
     Lato_400Regular,
   });
 
   if (!oswaldLoaded || !latoLoaded) {
     return null;
-  };
+  }
 
   return (
     <>
-      <ThemeProvider theme={ theme }>
+      <ThemeProvider theme={theme}>
         <AuthenticationContextProvider>
           <Navigation />
         </AuthenticationContextProvider>
       </ThemeProvider>
-      <ExpoStatusBar style='auto' />
+      <ExpoStatusBar style="auto" />
     </>
   );
 }
-
-
